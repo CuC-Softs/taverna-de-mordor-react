@@ -9,30 +9,18 @@ import {
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import api from "../api";
+import {
+  IAuthContextData,
+  IAuthProviderProps,
+} from "../shared/interfaces/IAuthContext";
 
-export interface AuthContextData {
-  signed: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
-    name: string,
-    email: string,
-    password: string,
-    passwordConfirmation: string
-  ) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextData>(
-  {} as AuthContextData
+export const AuthContext = createContext<IAuthContextData>(
+  {} as IAuthContextData
 );
-
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
 
 const MySwal = withReactContent(Swal);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState<string>();
   const signed = useMemo(() => {
