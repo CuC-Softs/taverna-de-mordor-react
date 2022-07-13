@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
 
 const Routes: React.FC = () => {
-  const { signed } = useAuth() 
+  const { signed } = useAuth();
 
   return (
     <BrowserRouter>

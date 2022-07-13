@@ -6,38 +6,34 @@ import {
   useMemo,
   useEffect,
 } from "react";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import api from "../api";
-
-export interface AuthContextData {
-  signed: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
-    name: string,
-    email: string,
-    password: string,
-    passwordConfirmation: string
-  ) => Promise<void>;
-  logout: () => Promise<void>;
-}
+import MySwal from "../services/swal";
+import api from "../services/api";
+import {
+  AuthContextData,
+  AuthProviderProps,
+} from "../shared/interfaces/AuthContext";
+import IUser from "../shared/interfaces/IUser";
 
 export const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData
 );
 
-interface AuthProviderProps {
-  children: React.ReactNode;
-}
-
-const MySwal = withReactContent(Swal);
-
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<IUser>();
   const [token, setToken] = useState<string>();
   const signed = useMemo(() => {
     return !!user;
   }, [user]);
+
+  const handleLogin = useCallback((data: any) => {
+    localStorage.setItem("auth:user", JSON.stringify(data.user));
+    localStorage.setItem("auth:token", data.token.token);
+
+    setUser(data.user);
+    setToken(data.token.token);
+
+    MySwal.fire("Logado", "Seja Bem-vindo(a)", "success");
+  }, []);
 
   const handleRehydrateUserData = () => {
     const user = localStorage.getItem("auth:user");
@@ -68,8 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         password,
       });
 
-      localStorage.setItem("auth:user", JSON.stringify(data.user));
-      localStorage.setItem("auth:token", data.token.token);
+      handleLogin(data);
 
       MySwal.fire("Logado", `Bem-vindo ${email}`, "success");
     } catch (err) {
@@ -115,8 +110,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const googleOauth = useCallback(async () => {
+    const url = new URL(process.env.VITE_DEV_GOOGLE_REDIRECT!);
+    url.search = window.location.search;
+
+    const { data } = await api.get(url.toString());
+
+    handleLogin(data);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ signed, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ signed, login, register, logout, user, googleOauth }}
+    >
       {children}
     </AuthContext.Provider>
   );
