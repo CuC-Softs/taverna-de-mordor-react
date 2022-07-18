@@ -34,7 +34,7 @@ const Team: React.FC = () => {
       role: "Front-end",
     },
   ];
-
+  
   return (
     <Main>
         <div className="p-7 bg-gray-50 pl-24 pt-5 flex ">
@@ -62,7 +62,7 @@ const Team: React.FC = () => {
               <li className="m-6">
                 <a href={teamMate.link} target="_blank">
                   <img
-                    className="rounded-full mx-auto md:w-36 lg:w-48 lg:h-48 shadow-lg hover:opacity-90"
+                    className="rounded-full mx-auto md:w-36 lg:w-48 lg:h-48 min-w-[75px] shadow-lg hover:opacity-90"
                     src={teamMate.img}
                     alt={teamMate.name}
                   />

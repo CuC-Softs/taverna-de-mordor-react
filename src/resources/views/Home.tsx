@@ -66,7 +66,7 @@ const home: React.FC = () => {
               </div>
             </div>
           </article>
-          <section>
+          <section className="bg-white ">
             <div className="container mx-auto mt-5 sm:mt-8">
               <h3 className="text-lg font-bold sm:text-3xl text-center text-gray-800">
                 Conheça o Mundo do RPG
@@ -97,7 +97,7 @@ const home: React.FC = () => {
                     </div>
                   </a>
                 </div>
-                <div className="bg-logo rounded-md overflow-hidden">
+                <div className="bg-logo bg-no-repeat bg-cover rounded-md overflow-hidden">
                   <a
                     href="https://chat.whatsapp.com/Cmcaoa8QIb5EJ662FZKZVv"
                     target="_blank"
@@ -118,8 +118,8 @@ const home: React.FC = () => {
                     </div>
                   </a>
                 </div>
-                <div className="row-start-1 h-52 col-start-2 col-span-2 bg-dungeons-and-dragons rounded-md overflow-hidden">
-                  <a href="https://dnd.wizards.com/" target="_blank  ">
+                <div className="row-start-1 h-52 col-start-2 col-span-2 bg-dungeons-and-dragons bg-no-repeat bg-left-top bg-cover rounded-md overflow-hidden">
+                  <a href="https://dnd.wizards.com/" target="_blank">
                     <div className="w-full h-full flex items-end text-center justify-center font-bold text-white">
                       <span className="text-2xl w-full bg-gradient-to-b from-transparent to-black p-10">
                         Dungeons and Dragons
